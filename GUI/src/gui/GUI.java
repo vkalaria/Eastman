@@ -17,7 +17,7 @@ public class GUI {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        JFrame frame = new JFrame("Eastman Screw Convayor");
+        JFrame frame = new JFrame("Eastman screw Convayor");
         frame.setSize(800, 480);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
