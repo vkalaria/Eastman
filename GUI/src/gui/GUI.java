@@ -7,80 +7,99 @@ package gui;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
+import java.awt.event.*;
 
 /*
  *
  * @author phillip
  */
 public class GUI extends JFrame{
-   public GUI(){
       
-      JPanel pOut = new JPanel(new GridLayout(3,3,5,5));
+   final private JFrame manualFrame = new JFrame();
+
+   final private ManualWindow manualWindow = new ManualWindow(manualFrame);
+   
+   final private JPanel pOut = new JPanel(new GridLayout(3,3,5,5));
+   
+   final private JPanel p1 = new JPanel(new BorderLayout(5,5));
+   final private JPanel p2 = new JPanel(new BorderLayout(5,5));
+   final private JPanel p3 = new JPanel(new BorderLayout(5,5));
+   final private JPanel p4 = new JPanel(new BorderLayout(5,5));
+   final private JPanel p5 = new JPanel(new BorderLayout(5,5));
+   final private JPanel p6 = new JPanel(new BorderLayout(5,5));
+
+   public GUI(){
+
+      Border lineBorder = new LineBorder(Color.BLACK, 2);
+      Font font1 = new Font("SansSerif", Font.BOLD, 24);
+      Font font2 = new Font("SansSerif", Font.BOLD, 16);
+
+      JLabel tempStart = new JLabel();
+      JLabel tempStartTitle = new JLabel("Temp Start", JLabel.CENTER);
+      JLabel tempEnd = new JLabel();
+      JLabel tempEndTitle = new JLabel("Temp End", JLabel.CENTER);
+      JLabel waterTemp = new JLabel();
+      JLabel waterTempTitle = new JLabel("Water Temp", JLabel.CENTER);
+      JLabel screwSpeed = new JLabel();
+      JLabel screwSpeedTitle = new JLabel("Screw Speed", JLabel.CENTER);
+      JLabel coldWater = new JLabel();
+      JLabel coldWaterTitle = new JLabel("Cold Water %", JLabel.CENTER);
+      JLabel tempReduction = new JLabel();
+      JLabel tempReductionTitle = new JLabel("Temp Reduction", JLabel.CENTER);
+
+      JButton start = new JButton("START");
+      JButton stop = new JButton("STOP");
+      JButton manual = new JButton("MANUAL");
+
       pOut.setBorder(new EmptyBorder(10, 10, 10, 10));
       
-      JPanel p1 = new JPanel(new BorderLayout(5,5));
-      JPanel p2 = new JPanel(new BorderLayout(5,5));
-      JPanel p3 = new JPanel(new BorderLayout(5,5));
-      JPanel p4 = new JPanel(new BorderLayout(5,5));
-      JPanel p5 = new JPanel(new BorderLayout(5,5));
-      JPanel p6 = new JPanel(new BorderLayout(5,5));
-      
-      Border lineBorder = new LineBorder(Color.BLACK, 2);
-      Font font = new Font("SansSerif", Font.BOLD, 24);
-      
-      // Adding elements to the window
-      JLabel tempStart = new JLabel();
+      // Adding elements to the window and setting their properties.
       tempStart.setBorder(lineBorder);
       tempStart.setBackground(Color.white);
-      p1.add(new JLabel("tempStart", JLabel.CENTER), BorderLayout.NORTH);
+      tempStartTitle.setFont(font2);
+      p1.add(tempStartTitle, BorderLayout.NORTH);
       p1.add(tempStart);
       
-      JLabel tempEnd = new JLabel();
       tempEnd.setBorder(lineBorder);
       tempEnd.setBackground(Color.white);
-      p2.add(new JLabel("tempEnd", JLabel.CENTER), BorderLayout.NORTH);
+      tempEndTitle.setFont(font2);
+      p2.add(tempEndTitle, BorderLayout.NORTH);
       p2.add(tempEnd);
 
-      JLabel waterTemp = new JLabel();
       waterTemp.setBorder(lineBorder);
       waterTemp.setBackground(Color.white);
-      p3.add(new JLabel("WaterTemp", JLabel.CENTER), BorderLayout.NORTH);
+      waterTempTitle.setFont(font2);
+      p3.add(waterTempTitle, BorderLayout.NORTH);
       p3.add(waterTemp);
 
-      JLabel screwSpeed = new JLabel();
       screwSpeed.setBorder(lineBorder);
       screwSpeed.setBackground(Color.WHITE);
-      p4.add(new JLabel("ScrewSpeed", JLabel.CENTER), BorderLayout.NORTH);
+      screwSpeedTitle.setFont(font2);
+      p4.add(screwSpeedTitle, BorderLayout.NORTH);
       p4.add(screwSpeed);
 
-      JLabel coldWater = new JLabel();
       coldWater.setBorder(lineBorder);
       coldWater.setBackground(Color.black);
-      p5.add(new JLabel("ColdWater%", JLabel.CENTER), BorderLayout.NORTH);
+      coldWaterTitle.setFont(font2);
+      p5.add(coldWaterTitle, BorderLayout.NORTH);
       p5.add(coldWater);
 
-      JLabel tempReduction = new JLabel();
       tempReduction.setBorder(lineBorder);
       tempReduction.setBackground(Color.white);
-      p6.add(new JLabel("TempReduction", JLabel.CENTER), BorderLayout.NORTH);
+      tempReductionTitle.setFont(font2);
+      p6.add(tempReductionTitle, BorderLayout.NORTH);
       p6.add(tempReduction);
       
-      JButton start = new JButton("START");
       start.setBackground(Color.GREEN);
-      start.setFont(font);
-      start.setSize(50,50);
-      start.setMaximumSize(new Dimension(20, 30));
+      start.setFont(font1);
       
-      JButton stop = new JButton("STOP");
       stop.setBackground(Color.RED);
-      stop.setFont(font);
-//      stop.setPreferredSize(new Dimension(40, 40));
-      stop.setMaximumSize(new Dimension(40, 40));
+      stop.setFont(font1);
 
-      JButton manual = new JButton("MANUAL");
       manual.setBackground(Color.LIGHT_GRAY);
-      manual.setFont(font);
+      manual.setFont(font1);
       
+      // Adds each of the buttons and the display panels to the outer panel.
       pOut.add(p1);
       pOut.add(p2);
       pOut.add(p3);
@@ -90,21 +109,54 @@ public class GUI extends JFrame{
       pOut.add(start);
       pOut.add(stop);
       pOut.add(manual);
+      
 
+      // Creating actionListeners for each of the three buttons on the screen
+      stop.addActionListener(new ActionListener(){
+         @Override
+         public void actionPerformed(ActionEvent e){
+            
+         }
+      });
+      
+      start.addActionListener(new ActionListener(){
+         @Override
+         public void actionPerformed(ActionEvent e){
+            
+         }
+      });
+      
+      manual.addActionListener(new ActionListener(){
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            manualFrame.setLocationRelativeTo(null);
+            manualFrame.setVisible(true);
+         }
+      });
+
+      // sets the properties of the manual window.
+      manualFrame.add(manualWindow);
+      manualFrame.setMinimumSize(new Dimension(800,480));
+      manualFrame.setMaximumSize(new Dimension(800, 480));
+      manualFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+      manualFrame.setLocationRelativeTo(null);
+      manualFrame.pack();
+      manualFrame.setTitle("Manual Controls");
+
+      //  sets the layout of the frame and adds the outer border panel
       setLayout(new GridLayout(1,1,10,10));
       add(pOut);
    }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        GUI frame = new GUI(/*"Eastman Screw Convayor"*/);
-//        frame.setSize(800, 480);
-        frame.setMinimumSize(new Dimension(800,480));
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
+
+   // Main function launches the screen.
+   public static void main(String[] args) {
+      // TODO code application logic here
+      GUI frame = new GUI(/*"Eastman Screw Convayor"*/);
+      frame.setMinimumSize(new Dimension(800,480));
+      frame.setMaximumSize(new Dimension(800,480));
+      frame.setLocationRelativeTo(null);
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.pack();
+      frame.setVisible(true);
+   }
 }
