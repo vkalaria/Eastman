@@ -1,6 +1,10 @@
-# Eastman
+# Eastman Cooling Screw Conveyor
 
-## TO DO
-1. Set the application to start on boot.. alter the /etc/rc.local
-2. Create desktop Icon
-3. Create desktop launch Icon.
+### UTK EECS Senior Design Team 2
+
+#### Team Members
+ * Scott Trueblood
+ * Vasu Kalaria
+ * Nicholas DeJulia
+ * Erik Rutledge
+ * Phillip McKnight
