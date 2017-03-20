@@ -32,7 +32,7 @@ def motor_stop():
 def motor_counter_clockwise():
     gpio.output(DIRECTION_PIN, gpio.HIGH)
     
-def motor_control(freq, direction, duty, enable=1):
+def motor_control(freq, duty, direction, enable=1):
     
     if (enable):
         if (direction):          
