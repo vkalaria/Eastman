@@ -26,6 +26,7 @@ pi.write(DIRECTION_PIN, 0)
 pi.set_mode(ENABLE_PIN, gpio.OUTPUT)
 pi.write(ENABLE_PIN, 1)
 
+# Creates Square wave of period 2*clk, clk is in microsecond
 def motor_run(clk):
     square.append(gpio.pulse(1<<PULSE_PIN, 0, clk))
     square.append(gpio.pulse(0, 1<<PULSE_PIN, clk))
@@ -35,7 +36,7 @@ def motor_run(clk):
     wid = pi.wave_create()
     if wid >= 0:
         pi.wave_send_repeat(wid)
-        time.sleep(10)
+        time.sleep(10)  # Need to add While loop
         pi.wave_tx_stop()
         pi.wave_clear()
     pi.stop()
