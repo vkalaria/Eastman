@@ -1,49 +1,81 @@
 import os
 import glob
 import time
+import sys
 
-import RPi.GPIO as gpio
+os.system("sudo pigpiod")
 
-PULSE_PIN     = 11
-DIRECTION_PIN = 12
-ENABLE_PIN    = 13
+import pigpio as gpio
 
-# Use board pin numbers
-gpio.setmode(gpio.BOARD)
+
+PULSE_PIN     = 17
+DIRECTION_PIN = 18
+ENABLE_PIN    = 27
+
+square = [] 
+pi = gpio.pi()
 
 # Pin for pulse signal
-gpio.setup(PULSE_PIN, gpio.OUT)
+pi.set_mode(PULSE_PIN, gpio.OUTPUT)
 
-# Pin for direction signal
-gpio.setup(DIRECTION_PIN, gpio.OUT)
-gpio.output(DIRECTION_PIN, gpio.LOW)
+# Pin for directional signal
+pi.set_mode(DIRECTION_PIN, gpio.OUTPUT)
 
 # Pin for enable signal
-gpio.setup(ENABLE_PIN, gpio.OUT)
-gpio.output(ENABLE_PIN, gpio.HIGH)
+pi.set_mode(ENABLE_PIN, gpio.OUTPUT)
+#pi.write(ENABLE_PIN, 1)
+ 
+def motor_run(clk):
+    square.append(gpio.pulse(1<<PULSE_PIN, 0, clk))
+    square.append(gpio.pulse(0, 1<<PULSE_PIN, clk))
+    
+    pi.wave_add_generic (square)
 
-def motor_clockwise():
-    gpio.output(DIRECTION_PIN, gpio.LOW)
+    wid = pi.wave_create()
+    if wid >= 0:
+        pi.wave_send_repeat(wid)
+#        time.sleep(10)
+#        pi.wave_tx_stop()
+#        pi.wave_clear()
+#    pi.stop()
 
 def motor_stop():
-    gpio.output(PULSE_PIN, gpio.LOW)
-    gpio.output(DIRECTION_PIN, gpio.LOW)
+    time.sleep(0.1)
+    pi.write(ENABLE_PIN, 0)
+    print("enable 0")
+    time.sleep(0.1)
+    pi.write(PULSE_PIN, 0)
+    time.sleep(0.1)
+    pi.wave_tx_stop()
+    pi.wave_clear()
+    pi.stop()
     
-def motor_counter_clockwise():
-    gpio.output(DIRECTION_PIN, gpio.HIGH)
     
-def motor_control(freq, duty, direction, enable=1):
-    
-    if (enable):
-        if (direction):          
-            motor_clockwise()
-            p = gpio.PWM(PULSE_PIN, freq)
-            p.start(duty)
-        else:
-            motor_counter_clockwise()
-            p = gpio.PWM(PULSE_PIN, freq)
-            p.start(duty)
+def motor_clockwise():
+    pi.write(DIRECTION_PIN, 1)
         
-    p.stop()
-    GPIO.cleanup()
-  
+def motor_c_clockwise():
+    pi.write(DIRECTION_PIN, 0)
+
+    
+def motor_control(freq, direction, enable):
+    print (freq)
+    print (direction)
+    print (enable)
+    period = 1/float(freq)
+    clk = (1000000*period)/2
+
+    if(enable == "1"):
+        print ("enable = 1")
+        if(direction == "1"):
+            print ("direction = 1")
+            motor_clockwise()
+            motor_run(clk)
+            pi.stop()
+        else:
+            print ("direction = 0")
+            motor_c_clockwise()
+            motor_run(clk)
+            pi.stop()
+    else:
+        motor_stop()
