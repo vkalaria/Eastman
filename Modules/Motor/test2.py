@@ -16,3 +16,4 @@ enable    = sys.argv[3]
 #while (True):
     
 motor2.motor_control(frequency, direction, enable)
+

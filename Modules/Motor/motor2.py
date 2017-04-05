@@ -7,7 +7,6 @@ os.system("sudo pigpiod")
 
 import pigpio as gpio
 
-
 PULSE_PIN     = 17
 DIRECTION_PIN = 18
 ENABLE_PIN    = 27
@@ -24,7 +23,8 @@ pi.set_mode(DIRECTION_PIN, gpio.OUTPUT)
 # Pin for enable signal
 pi.set_mode(ENABLE_PIN, gpio.OUTPUT)
 #pi.write(ENABLE_PIN, 1)
- 
+
+# Creates Square wave of period 2*clk, clk is in microsecond
 def motor_run(clk):
     square.append(gpio.pulse(1<<PULSE_PIN, 0, clk))
     square.append(gpio.pulse(0, 1<<PULSE_PIN, clk))
@@ -49,31 +49,24 @@ def motor_stop():
     pi.wave_tx_stop()
     pi.wave_clear()
     pi.stop()
-    
-    
+        
 def motor_clockwise():
     pi.write(DIRECTION_PIN, 1)
         
 def motor_c_clockwise():
     pi.write(DIRECTION_PIN, 0)
 
-    
 def motor_control(freq, direction, enable):
-    print (freq)
-    print (direction)
-    print (enable)
+
     period = 1/float(freq)
     clk = (1000000*period)/2
 
-    if(enable == "1"):
-        print ("enable = 1")
-        if(direction == "1"):
-            print ("direction = 1")
+    if(enable):
+        if(direction):
             motor_clockwise()
             motor_run(clk)
             pi.stop()
         else:
-            print ("direction = 0")
             motor_c_clockwise()
             motor_run(clk)
             pi.stop()
