@@ -4,6 +4,9 @@
  */
 package gui;
 
+import java.io.*;
+import java.net.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
@@ -27,6 +30,10 @@ public class GUI extends JFrame{
    final private JPanel p4 = new JPanel(new BorderLayout(5,5));
    final private JPanel p5 = new JPanel(new BorderLayout(5,5));
    final private JPanel p6 = new JPanel(new BorderLayout(5,5));
+   
+   final private static JLabel tempStart = new JLabel();
+
+      static String python = null;
 
    public GUI(){
 
@@ -34,7 +41,6 @@ public class GUI extends JFrame{
       Font font1 = new Font("SansSerif", Font.BOLD, 24);
       Font font2 = new Font("SansSerif", Font.BOLD, 16);
 
-      JLabel tempStart = new JLabel();
       JLabel tempStartTitle = new JLabel("Temp Start", JLabel.CENTER);
       JLabel tempEnd = new JLabel();
       JLabel tempEndTitle = new JLabel("Temp End", JLabel.CENTER);
@@ -150,13 +156,36 @@ public class GUI extends JFrame{
 
    // Main function launches the screen.
    public static void main(String[] args) {
-      // TODO code application logic here
-      GUI frame = new GUI(/*"Eastman Screw Convayor"*/);
-      frame.setMinimumSize(new Dimension(800,480));
-      frame.setMaximumSize(new Dimension(800,480));
-      frame.setLocationRelativeTo(null);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.pack();
-      frame.setVisible(true);
+      SwingUtilities.invokeLater(new Runnable(){
+         public void run() {
+            GUI frame = new GUI(/*"Eastman Screw Convayor"*/);
+            frame.setMinimumSize(new Dimension(800,480));
+            frame.setMaximumSize(new Dimension(800,480));
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
+         }
+      });
+      
+      
+      System.out.print("hello\n");
+      tempStart.setFont(new Font("tStart", Font.BOLD, 60 ));
+      tempStart.setHorizontalAlignment(tempStart.CENTER);
+      try{
+         ServerSocket serverSocket = new ServerSocket(32415);
+         Socket socket = serverSocket.accept();
+         DataInputStream input = new DataInputStream(
+                 socket.getInputStream());
+         while(true){
+            python = input.readLine();
+            System.out.println(python);
+            tempStart.setText(python);
+         }
+      }catch(IOException ex){
+         System.err.println(ex);
+      }
+      
+      
    }
 }
