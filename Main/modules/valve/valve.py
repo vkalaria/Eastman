@@ -1,31 +1,32 @@
 import os
 import time
 
-import RPi.GPIO as gpio
+os.system("sudo pigpiod")
+import pigpio as gpio
 
+OPEN_HOT_PIN  = 14
 OPEN_COLD_PIN = 15
-OPEN_HOT_PIN  = 16
 
 OPEN_TIME     = 3
 
-gpio.setmode(gpio.BOARD)
+pi = gpio.pi()
 
 # Open cold/close hot valves
-gpio.setup(OPEN_COLD_PIN, gpio.OUT)
+pi.set_mode(OPEN_COLD_PIN, gpio.OUTPUT)
 # Open hot/close cold valves
-gpio.setup(OPEN_HOT_PIN, gpio.OUT)
+pi.set_mode(OPEN_HOT_PIN, gpio.OUTPUT)
 
-def calc_time(percentage):
+def calcTime(percentage):
     open_time = (percentage/100) * OPEN_TIME
 
-def open_cold():
-    gpio.output(OPEN_HOT_PIN, gpio.LOW)
-    gpio.output(OPEN_COLD_PIN, gpio.HIGH)
-
-def open_hot():
-    gpio.output(OPEN_COLD_PIN, gpio.LOW)
-    gpio.output(OPEN_HOT_PIN, gpio.HIGH)
+def openHot():
+    pi.write(OPEN_HOT_PIN, 1)
+    pi.write(OPEN_COLD_PIN, 0)
+    
+def openCold():
+    pi.write(OPEN_HOT_PIN, 0)
+    pi.write(OPEN_COLD_PIN, 1)
 
 def stop():
-    gpio.output(OPEN_COLD_PIN, gpio.LOW)
-    gpio.output(OPEN_HOT_PIN, gpio.LOW)
+    pi.write(OPEN_HOT_PIN, 0)
+    pi.write(OPEN_COLD_PIN, 0)
