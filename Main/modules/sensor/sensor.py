@@ -33,9 +33,9 @@ def extractTemp(folder):
         string = lines[1][equals_pos+2:]
         temp_c = float(string) / 1000.0
         temp_f = temp_c * 9.0 / 5.0 +32.0
-        return str(temp_f)
+        return temp_f
     else:
-        return 'Error collecting temp for ' + folder
+        return 'Error with ' + folder
 
 def getWaterInTemp():
     folder = (glob.glob(BASE_DIR + WATER_IN) + '/w1_slave')
