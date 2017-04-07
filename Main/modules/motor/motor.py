@@ -31,10 +31,10 @@ def motor_run(clk):
     wid = pi.wave_create()
     if wid >= 0:
         pi.wave_send_repeat(wid)
-        time.sleep(10)
-        pi.wave_tx_stop()
-        pi.wave_clear()
-    pi.stop()
+#        time.sleep(10)
+#        pi.wave_tx_stop()
+#        pi.wave_clear()
+#    pi.stop()
 
 def motor_stop():
     time.sleep(0.1)
