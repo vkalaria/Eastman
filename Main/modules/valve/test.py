@@ -3,20 +3,20 @@ import time
 
 import valve
 
-valve.open_cold()
+valve.openCold()
 time.sleep(4)
-valve.open_hot()
+valve.openHot()
 time.sleep(4)
 valve.stop()
 
-valve.open_cold()
+valve.openCold()
 time.sleep(4)
-valve.open_hot()
+valve.openHot()
 time.sleep(2)
 valve.stop()
 
-valve.open_cold()
+valve.openCold()
 time.sleep(4)
-valve.open_hot()
+valve.openHot()
 time.sleep(2)
 valve.stop()
