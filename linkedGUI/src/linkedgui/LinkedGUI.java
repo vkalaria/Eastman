@@ -22,6 +22,7 @@ public class LinkedGUI extends JFrame{
    public ManualWindow manualWindow = null;
    public MainWindow mainWindow = null;
    public Link link = null;
+   public static Thread thread = null;
    
    public LinkedGUI (){
    
@@ -29,6 +30,10 @@ public class LinkedGUI extends JFrame{
       manualWindow = new ManualWindow(this);
       setLayout(new GridLayout(1,1,10,10));
       setTitle("Easman Screw Convayor");
+      
+      link = new Link(mainWindow, manualWindow);
+      thread = new Thread(link);
+      
 
       this.add(mainWindow);
       
@@ -38,13 +43,18 @@ public class LinkedGUI extends JFrame{
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       pack();
       setVisible(true);
+
+
    }
    public static void main(String[] args) {
       SwingUtilities.invokeLater(new Runnable(){
          public void run() {
             LinkedGUI frame = new LinkedGUI();
+            thread.start();
          }
       });
+
+      
    }
       
    void changePane(int arg) {
@@ -65,23 +75,3 @@ public class LinkedGUI extends JFrame{
       }
    }
 }
-/*   
-   System.out.print("hello\n");
-   tempStart.setFont(new Font("tStart", Font.BOLD, 60 ));
-   tempStart.setHorizontalAlignment(tempStart.CENTER);
-
-      try{
-         ServerSocket serverSocket = new ServerSocket(32415);
-         Socket socket = serverSocket.accept();
-         DataInputStream input = new DataInputStream(
-                 socket.getInputStream());
-         while(true){
-            python = input.readLine();
-            System.out.println(python);
-            tempStart.setText(python);
-         }
-      }catch(IOException ex){
-         System.err.println(ex);
-      }
-      
-*/      

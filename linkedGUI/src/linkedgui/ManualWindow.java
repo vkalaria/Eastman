@@ -24,6 +24,7 @@ public class ManualWindow extends JPanel{
       Font font1 = new Font("SansSerif", Font.BOLD, 16);
       Font font2 = new Font("SansSerif", Font.BOLD, 20);
       Font font3 = new Font("SansSerif", Font.BOLD, 24);
+      Font manualFont = new Font("SansSerif", Font.BOLD, 60 );
 
       JPanel inner1 = new JPanel(new GridLayout(1,2));
       JPanel inner2 = new JPanel(new GridLayout(1,2));
@@ -68,8 +69,14 @@ public class ManualWindow extends JPanel{
       tapWaterTitle.setFont(font1);
       
       speed.setBorder(lineBorder);
+      speed.setFont(manualFont);
+      speed.setHorizontalAlignment(speed.CENTER);
       cold.setBorder(lineBorder);
+      cold.setFont(manualFont);
+      cold.setHorizontalAlignment(cold.CENTER);
       tap.setBorder(lineBorder);
+      tap.setFont(manualFont);
+      tap.setHorizontalAlignment(tap.CENTER);
 
       speedUp.setFont(font2);
       slowDown.setFont(font2);
@@ -89,13 +96,14 @@ public class ManualWindow extends JPanel{
       stop.addActionListener(new ActionListener(){
          @Override
          public void actionPerformed(ActionEvent e){
-            
+            parent.link.writeButtonPress("stop\n");
          }
       });
       
       start.addActionListener(new ActionListener(){
          @Override
          public void actionPerformed(ActionEvent e){
+            parent.link.writeButtonPress("start\n");
             
          }
       });
@@ -103,10 +111,74 @@ public class ManualWindow extends JPanel{
       back.addActionListener(new ActionListener(){
          @Override
          public void actionPerformed(ActionEvent e) {
+            parent.link.writeButtonPress("auto\n");
             parent.changePane(2);
          }
       });
       
+      speedUp.addActionListener(new ActionListener(){
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            int currentSpeed = Integer.parseInt(speed.getText());
+            if(currentSpeed <= 90)
+            {
+               currentSpeed += 10;
+               speed.setText(Integer.toString(currentSpeed));
+               parent.link.writeButtonPress("motor+\n");
+            }
+            
+         }
+      });
+      
+      slowDown.addActionListener(new ActionListener(){
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            int currentSpeed = Integer.parseInt(speed.getText());
+            if(currentSpeed >= -90)
+            {
+               currentSpeed -= 10;
+               speed.setText(Integer.toString(currentSpeed));
+               parent.link.writeButtonPress("motor-\n");
+            }
+         }
+      });
+      
+      coldPlus.addActionListener(new ActionListener(){
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            int currentCold = Integer.parseInt(cold.getText());
+            if(currentCold <= 95)
+            {
+               currentCold += 5;
+               tap.setText(Integer.toString(100 - currentCold));
+               cold.setText(Integer.toString(currentCold));
+               parent.link.writeButtonPress("cold+\n");
+            }
+         }
+      });
+      
+      tapPlus.addActionListener(new ActionListener(){
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            int currentTap = Integer.parseInt(tap.getText());
+            if(currentTap <= 95)
+            {
+               currentTap += 5;
+               tap.setText(Integer.toString(currentTap));
+               cold.setText(Integer.toString(100 - currentTap));
+               parent.link.writeButtonPress("tap+\n");
+            }
+         }
+      });
+      
+/*      JButton start = new JButton("START");
+      JButton stop = new JButton("STOP");
+      JButton back = new JButton("BACK");
+      JButton speedUp = new JButton("SPEED +");
+      JButton slowDown = new JButton("SPEED -");
+      JButton coldPlus = new JButton("Cold +");
+      JButton tapPlus = new JButton("Tap +");
+*/
       inner1_1.add(speedTitle, BorderLayout.NORTH);
       inner1_1.add(inner1_1_1, BorderLayout.CENTER);
       inner1_1_1.setBackground(Color.WHITE);
@@ -167,5 +239,20 @@ public class ManualWindow extends JPanel{
       add(inner2);
       add(inner3);
 
-   }   
+   }
+
+   void setSpeed(String s)
+   {
+      speed.setText(s);
+   }
+   
+   void setCold(String s)
+   {
+      cold.setText(s);
+   }
+   
+   void setTap(String s)
+   {
+      tap.setText(s);
+   }
 }

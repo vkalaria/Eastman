@@ -1,8 +1,5 @@
 package linkedgui;
 
-//import java.io.*;
-//import java.net.*;
-//import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
@@ -38,11 +35,11 @@ public class MainWindow extends JPanel{
       JPanel p5_1 = new JPanel(new BorderLayout(0,0));
       JPanel p6 = new JPanel(new BorderLayout(5,5));
       JPanel p6_1 = new JPanel(new BorderLayout(0,0));
-
       
       Border lineBorder = new LineBorder(Color.BLACK, 2);
       Font font1 = new Font("SansSerif", Font.BOLD, 24);
       Font font2 = new Font("SansSerif", Font.BOLD, 16);
+      Font mainFont = new Font("mainFont", Font.BOLD, 60 );
 
       JLabel tempStartTitle = new JLabel("Temp Start", JLabel.CENTER);
       JLabel tempEndTitle = new JLabel("Temp End", JLabel.CENTER);
@@ -58,6 +55,8 @@ public class MainWindow extends JPanel{
       // Adding elements to the window and setting their properties.
       tempStart.setBorder(lineBorder);
       tempStart.setBackground(Color.white);
+      tempStart.setFont(mainFont);
+      tempStart.setHorizontalAlignment(tempStart.CENTER);
       tempStartTitle.setFont(font2);
       p1.add(tempStartTitle, BorderLayout.NORTH);
       p1_1.add(tempStart);
@@ -66,6 +65,8 @@ public class MainWindow extends JPanel{
       
       tempEnd.setBorder(lineBorder);
       tempEnd.setBackground(Color.white);
+      tempEnd.setFont(mainFont);
+      tempEnd.setHorizontalAlignment(tempEnd.CENTER);
       tempEndTitle.setFont(font2);
       p2.add(tempEndTitle, BorderLayout.NORTH);
       p2_1.add(tempEnd);
@@ -74,6 +75,8 @@ public class MainWindow extends JPanel{
 
       waterTemp.setBorder(lineBorder);
       waterTemp.setBackground(Color.white);
+      waterTemp.setFont(mainFont);
+      waterTemp.setHorizontalAlignment(waterTemp.CENTER);
       waterTempTitle.setFont(font2);
       p3.add(waterTempTitle, BorderLayout.NORTH);
       p3_1.add(waterTemp);
@@ -82,6 +85,8 @@ public class MainWindow extends JPanel{
 
       screwSpeed.setBorder(lineBorder);
       screwSpeed.setBackground(Color.WHITE);
+      screwSpeed.setFont(mainFont);
+      screwSpeed.setHorizontalAlignment(screwSpeed.CENTER);
       screwSpeedTitle.setFont(font2);
       p4.add(screwSpeedTitle, BorderLayout.NORTH);
       p4_1.add(screwSpeed);
@@ -90,6 +95,8 @@ public class MainWindow extends JPanel{
 
       coldWater.setBorder(lineBorder);
       coldWater.setBackground(Color.black);
+      coldWater.setFont(mainFont);
+      coldWater.setHorizontalAlignment(coldWater.CENTER);
       coldWaterTitle.setFont(font2);
       p5.add(coldWaterTitle, BorderLayout.NORTH);
       p5_1.add(coldWater);
@@ -98,6 +105,8 @@ public class MainWindow extends JPanel{
 
       tempReduction.setBorder(lineBorder);
       tempReduction.setBackground(Color.white);
+      tempReduction.setFont(mainFont);
+      tempReduction.setHorizontalAlignment(tempReduction.CENTER);
       tempReductionTitle.setFont(font2);
       p6.add(tempReductionTitle, BorderLayout.NORTH);
       p6_1.add(tempReduction);
@@ -131,6 +140,7 @@ public class MainWindow extends JPanel{
       stop.addActionListener(new ActionListener(){
          @Override
          public void actionPerformed(ActionEvent e){
+            parent.link.writeButtonPress("stop\n");
             
          }
       });
@@ -138,6 +148,7 @@ public class MainWindow extends JPanel{
       start.addActionListener(new ActionListener(){
          @Override
          public void actionPerformed(ActionEvent e){
+            parent.link.writeButtonPress("start\n");
             
          }
       });
@@ -145,22 +156,39 @@ public class MainWindow extends JPanel{
       manual.addActionListener(new ActionListener(){
          @Override
          public void actionPerformed(ActionEvent e) {
+            parent.link.writeButtonPress("manual\n");
             parent.changePane(1);
-//            manualFrame.setLocationRelativeTo(null);
-//            manualFrame.setVisible(true);
          }
       });
-
-      // sets the properties of the manual window.
-/*      manualFrame.add(manualWindow);
-      manualFrame.setMinimumSize(new Dimension(800,480));
-      manualFrame.setMaximumSize(new Dimension(800, 480));
-      manualFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-      manualFrame.setLocationRelativeTo(null);
-      manualFrame.pack();
-      manualFrame.setTitle("Manual Controls");
-*/
-      //  sets the layout of the frame and adds the outer border panel
-//      setLayout(new GridLayout(1,1,10,10));
+   }
+   
+   void setTempStart(String s)
+   {
+      tempStart.setText(s);
+   }
+   
+   void setTempEnd(String s)
+   {
+      tempEnd.setText(s);
+   }
+   
+   void setWaterTemp(String s)
+   { 
+      waterTemp.setText(s);
+   }
+   
+   void setScrewSpeed(String s)
+   {
+      screwSpeed.setText(s);
+   }
+   
+   void setColdWater(String s)
+   {
+      coldWater.setText(s);
+   }
+   
+   void setTempReduction(String s)
+   {
+      tempReduction.setText(s);
    }
 }
