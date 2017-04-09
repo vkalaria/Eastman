@@ -22,6 +22,10 @@ def HeatTransfer(ScrewStart, ScrewEnd, MaterialIn, MaterialOut, WMixture, freque
 	Xspecific = 0.2388 #Specific Heat of Xanthan Gum
 	Cspecific = 1.003 #Specific Heat of Water
 	MassFlow = 1368 #Flow Rate, lb/hr
+
+	#Ensure that Auto has reset the variables
+	frequency = 800
+	Direction = 1
 	
 	#Heat Equation calculations
 	Qdot = (MassFlow)*(Xspecific)*(MaterialIn - MaterialOut)
