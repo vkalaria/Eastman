@@ -6,8 +6,10 @@ PULSE_PIN     = 17
 DIRECTION_PIN = 18
 ENABLE_PIN    = 27
 
-square = []
+# Connect to pigpiod daemon
 pi = gpio.pi()
+
+square = []
 
 # Pin for pulse signal
 pi.set_mode(PULSE_PIN, gpio.OUTPUT)
@@ -15,10 +17,17 @@ pi.set_mode(PULSE_PIN, gpio.OUTPUT)
 pi.set_mode(DIRECTION_PIN, gpio.OUTPUT)
 # Pin for enable signal
 pi.set_mode(ENABLE_PIN, gpio.OUTPUT)
-#pi.write(ENABLE_PIN, 1)
 
-# Creates Square wave of period 2*clk, clk is in microsecond
-def motor_run(clk):
+# Set motor direction - clockwise
+def set_clockwise():
+    pi.write(DIRECTION_PIN, 1)
+
+# Set motor direction - counterclockwise
+def set_c_clockwise():
+    pi.write(DIRECTION_PIN, 0)
+
+# Create square wave of period 2*clk, clk is in microsecond
+def run(clk):
     square.append(gpio.pulse(1<<PULSE_PIN, 0, int(clk)))
     square.append(gpio.pulse(0, 1<<PULSE_PIN, int(clk)))
 
@@ -28,7 +37,20 @@ def motor_run(clk):
     if wid >= 0:
         pi.wave_send_repeat(wid)
 
-def motor_stop():
+# Start motor control with given fequency and direction
+def start(freq, direction=1):
+    period = 1/float(freq)
+    clk = (1000000*period)/2
+
+    if(direction):
+        set_clockwise()
+    else:
+        set_c_clockwise()
+        
+    run(clk)
+
+# Stop motor control
+def stop():
     time.sleep(0.1)
     pi.write(ENABLE_PIN, 0)
     time.sleep(0.1)
@@ -36,30 +58,8 @@ def motor_stop():
     time.sleep(0.1)
     pi.wave_tx_stop()
     pi.wave_clear()
+
+# Disconnect pigpiod daemon
+def terminate()
     pi.stop()
-
-def motor_clockwise():
-    pi.write(DIRECTION_PIN, 1)
     
-
-def motor_c_clockwise():
-    pi.write(DIRECTION_PIN, 0)
-
-def motorControl(freq, direction=1, enable=1):
-    period = 1/float(freq)
-    clk = (1000000*period)/2
-
-    if(enable):
-        if(direction):
-            motor_clockwise()
-            print('clock')
-            motor_run(clk)
-            print('run')
-            pi.stop()
-            print('stop')
-        else:
-            motor_c_clockwise()
-            motor_run(clk)
-            pi.stop()
-    else:
-        motor_stop()
