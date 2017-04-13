@@ -1,9 +1,5 @@
-import os
-import glob
 import time
-import sys
 
-os.system("sudo pigpiod")
 import pigpio as gpio
 
 PULSE_PIN     = 17
@@ -23,18 +19,14 @@ pi.set_mode(ENABLE_PIN, gpio.OUTPUT)
 
 # Creates Square wave of period 2*clk, clk is in microsecond
 def motor_run(clk):
-    square.append(gpio.pulse(1<<PULSE_PIN, 0, clk))
-    square.append(gpio.pulse(0, 1<<PULSE_PIN, clk))
+    square.append(gpio.pulse(1<<PULSE_PIN, 0, int(clk)))
+    square.append(gpio.pulse(0, 1<<PULSE_PIN, int(clk)))
 
-    pi.wave_add_generic (square)
+    pi.wave_add_generic(square)
 
     wid = pi.wave_create()
     if wid >= 0:
         pi.wave_send_repeat(wid)
-#        time.sleep(10)
-#        pi.wave_tx_stop()
-#        pi.wave_clear()
-#    pi.stop()
 
 def motor_stop():
     time.sleep(0.1)
@@ -48,6 +40,7 @@ def motor_stop():
 
 def motor_clockwise():
     pi.write(DIRECTION_PIN, 1)
+    
 
 def motor_c_clockwise():
     pi.write(DIRECTION_PIN, 0)
@@ -59,8 +52,11 @@ def motorControl(freq, direction=1, enable=1):
     if(enable):
         if(direction):
             motor_clockwise()
+            print('clock')
             motor_run(clk)
+            print('run')
             pi.stop()
+            print('stop')
         else:
             motor_c_clockwise()
             motor_run(clk)

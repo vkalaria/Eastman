@@ -1,7 +1,6 @@
 import os
 import time
 
-os.system("sudo pigpiod")
 import pigpio as gpio
 
 OPEN_HOT_PIN  = 14

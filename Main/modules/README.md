@@ -5,6 +5,17 @@
 #### Description
 System components for controlling the motor and water valves as well as collecting input from water sensors.
 
+The motor and valves require pigpiod to be started before operation. This can be done by starting it on boot up.
+A crontab needs to be edited (this command will create it if it does not exist already):
+```
+sudo crontab -e
+```
+Select an editor if asked to, then insert this line at the end of the file:
+```
+@reboot		sudo pigpiod
+```
+_Note: this is assuming PIGPIO is installed and available through the system path._
+
 ### API
 
 ##### Usage
