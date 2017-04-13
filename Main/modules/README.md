@@ -25,13 +25,23 @@ Import all modules.
 from modules import motor, sensor, valve
 ```
 
+
 ##### Motor
 
 ###### Methods
 ```
-motorControl(freq, direction, enable)
+start(freq, direction)
 ```  
-No return value but should be provided the frequency for the desired speed as an integer. The direction can be 1 (clockwise) or 0 (counterclockwise) but defaults to 1 if no value provided. Enable can be 1 (true) or 0 (false) but defaults to 1 if no value provided.
+No return value but should be provided the frequency for the desired speed as an integer. The direction can be 1 (clockwise) or 0 (counterclockwise) but defaults to 1 if no value provided.
+```
+stop()
+```
+No return value. Stops motor control.
+```
+disconnect()
+```
+No return value. Terminates GPIO connection, only used when exiting program entirely.
+
 
 ##### Sensor
 

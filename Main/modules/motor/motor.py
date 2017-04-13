@@ -60,6 +60,6 @@ def stop():
     pi.wave_clear()
 
 # Disconnect pigpiod daemon
-def terminate()
+def disconnect()
     pi.stop()
     
