@@ -11,14 +11,11 @@ Auto = 1
 frequency = 800
 Direction = 1
 
-def GetInfo():
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.connect('localhost', 32415)
+def GetInfo(s):
 	Socketinfo = s.recv(1024).decode()
-	s.close()
 	return Socketinfo
 
-def HeatTransfer(ScrewStart, ScrewEnd, MaterialIn, MaterialOut, WMixture, frequency):
+def HeatTransfer(ScrewStart, ScrewEnd, MaterialIn, MaterialOut, WMixture, frequency, s):
 	Xspecific = 0.2388 #Specific Heat of Xanthan Gum
 	Cspecific = 1.003 #Specific Heat of Water
 	MassFlow = 1368 #Flow Rate, lb/hr
@@ -61,22 +58,27 @@ def HeatTransfer(ScrewStart, ScrewEnd, MaterialIn, MaterialOut, WMixture, freque
         SendData += ','
         SendData += "speed:"
         SendData += str(frequency)
+	SendData += "coldWater:"
+	SendData += "{:.9f)".format(ScrewStart)
+	SendData += "tempReduction:"
+	SendData += "{:.9f)".format(MaterialIn-MaterialOut)
         SendData += '\n'
-        SendInfo(SendData)
+        SendInfo(s, SendData)
 	return 
 
-def SendInfo(SendData):
+def SendInfo(s, SendData):
 	#Send info to netcode
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.connect('localhost', 32415)
 	s.send(SendData.encode())
-	s.close()
 	return
 def Main():
+
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.connect('localhost', 32415)
+
 	#Start the program
 	while(1):
 		#Grab info from GUI
-		GUI = GetInfo()
+		GUI = GetInfo(s)
 
 		if(GUI == "Start"):
 			Start = 1
@@ -118,7 +120,7 @@ def Main():
 
 			if(Auto == 1):
 				#Heat Transfer
-				HeatTransfer(ScrewStart, ScrewEnd, MaterialIn, MaterialOut, WMixture, frequency)
+				HeatTransfer(ScrewStart, ScrewEnd, MaterialIn, MaterialOut, WMixture, frequency, s)
 
 			if(Auto == 0):
 				SendData = "tempStart:"
@@ -132,6 +134,10 @@ def Main():
 				SendData += ','
 				SendData += "speed:"
 				SendData += str(frequency)
+				SendData += "coldWater:"
+				SendData += "{:.9f)".format(ScrewStart)
+				SendData += "tempReduction:"
+				SendData += "{:.9f)".format(MaterialIn-MaterialOut)
 				SendData += '\n'
-				SendInfo(SendData)
+				SendInfo(s, SendData)
 
