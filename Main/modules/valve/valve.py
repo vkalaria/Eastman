@@ -3,10 +3,10 @@ import time
 
 import pigpio as gpio
 
-OPEN_HOT_PIN  = 14
-OPEN_COLD_PIN = 15
+OPEN_HOT_PIN  = 22
+OPEN_COLD_PIN = 23
 
-OPEN_TIME     = 3
+OPEN_TIME     = 4
 
 pi = gpio.pi()
 

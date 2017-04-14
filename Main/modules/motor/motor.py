@@ -41,7 +41,8 @@ def run(clk):
 def start(freq, direction=1):
     period = 1/float(freq)
     clk = (1000000*period)/2
-
+    print(clk)   
+    pi.write(ENABLE_PIN, 1)
     if(direction):
         set_clockwise()
     else:
@@ -52,14 +53,12 @@ def start(freq, direction=1):
 # Stop motor control
 def stop():
     time.sleep(0.1)
-    pi.write(ENABLE_PIN, 0)
-    time.sleep(0.1)
     pi.write(PULSE_PIN, 0)
     time.sleep(0.1)
     pi.wave_tx_stop()
     pi.wave_clear()
 
 # Disconnect pigpiod daemon
-def disconnect()
+def disconnect():
     pi.stop()
     

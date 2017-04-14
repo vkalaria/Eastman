@@ -4,9 +4,9 @@ import time
 import valve
 
 valve.openCold()
-time.sleep(4)
+time.sleep(2)
 valve.openHot()
-time.sleep(4)
+time.sleep(2)
 valve.stop()
 
 valve.openCold()
