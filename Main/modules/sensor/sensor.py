@@ -14,7 +14,7 @@ SENSOR_PIN = 7
 
 #CSV Sensor Serial Numbers
 WATER_IN    = '28-00000801a3e5'
-WATER_ONE   = ''
+WATER_ONE   = '28-000007ffe415'
 WATER_TWO   = ''
 WATER_OUT   = '28-00000800009f'
 PRODUCT_IN  = '28-0000080842dc'
@@ -38,25 +38,25 @@ def extractTemp(folder):
         return 'Error with ' + folder
 
 def getWaterInTemp():
-    folder = (glob.glob(BASE_DIR + WATER_IN) + '/w1_slave')
+    folder = (BASE_DIR + WATER_IN + '/w1_slave')
     return extractTemp(folder)
 
 def getWaterOneTemp():
-    folder = (glob.glob(BASE_DIR + WATER_ONE) + '/w1_slave')
+    folder = (BASE_DIR + WATER_ONE + '/w1_slave')
     return extractTemp(folder)
 
 def getWaterTwoTemp():
-    folder = (glob.glob(BASE_DIR + WATER_TWO) + '/w1_slave')
+    folder = (BASE_DIR + WATER_TWO + '/w1_slave')
     return extractTemp(folder)
 
 def getWaterOutTemp():
-    folder = (glob.glob(BASE_DIR + WATER_OUT) + '/w1_slave')
+    folder = (BASE_DIR + WATER_OUT +'/w1_slave')
     return extractTemp(folder)
 
 def getProductInTemp():
-    folder = (glob.glob(BASE_DIR + PRODUCT_IN) + '/w1_slave')
+    folder = (BASE_DIR + PRODUCT_IN + '/w1_slave')
     return extractTemp(folder)
 
 def getProductOutTemp():
-    folder = (glob.glob(BASE_DIR + PRODUCT_OUT) + '/w1_slave')
+    folder = (BASE_DIR + PRODUCT_OUT + '/w1_slave')
     return extractTemp(folder)
